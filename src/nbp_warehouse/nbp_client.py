@@ -23,13 +23,13 @@ def build_session() -> requests.Session:
     session.headers['Accept']='application/json'
     return session
 
-def fetch_tables(session: requests.Session, start: date, end: date) -> list[dict]:
+def fetch_tables(session: requests.Session, start: date, end: date) -> tuple[str, list[dict]]:
     url=f'{base_url}/{start}/{end}/'
     response=session.get(url,timeout=10)
 
-    if response.status_code==404: return [] 
+    if response.status_code==404: return url,[] 
     response.raise_for_status()
-    return response.json()
+    return url,response.json()
     
    
 
